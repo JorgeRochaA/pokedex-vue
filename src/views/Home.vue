@@ -25,7 +25,7 @@ export default {
   methods: {
     ...mapActions(["addPokemonAction"]),
    async loadPokemons() {
-      for (let i = 1; i <= 150; i++) {
+      for (let i = 1; i <= 10; i++) {
         await axios
           .get("https://pokeapi.co/api/v2/pokemon/" + i)
           .then((result) => {

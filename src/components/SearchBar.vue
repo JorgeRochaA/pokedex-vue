@@ -6,40 +6,50 @@
 </template>
 <script>
 import axios from "axios";
-import {mapActions} from "vuex";
+import { mapGetters,mapActions } from "vuex";
 export default {
   name: "SearchBar",
   data() {
     return {
-      pokemonName: ""
-    }
+      pokemonName: "",
+    };
+  },
+  computed:{
+    ...mapGetters(["getPokemons"]),
   },
   methods: {
-    ...mapActions(['addPokemonAction','clearPokemonsAction']),
+    ...mapActions(["addPokemonAction", "clearPokemonsAction","changeFilterValueAction"]),
     filter() {
-      if (this.pokemonName == "") {
-        this.clearPokemonsAction();
-        this.loadPokemons();
-      } else {
-              axios.get("https://pokeapi.co/api/v2/pokemon/" + this.pokemonName.toLowerCase()).then((result) => {
-        this.clearPokemonsAction();
-        this.addPokemonAction(result.data);
-        this.pokemonName = "";
-      }).catch((err) => {
-        console.log(err);
-      });
-      }
-    },
-       async loadPokemons() {
-      for (let i = 1; i <= 150; i++) {
-        await axios
-          .get("https://pokeapi.co/api/v2/pokemon/" + i)
+      if (!this.pokemonName == "") {
+        this.changeFilterValueAction(false);
+         axios
+          .get(
+            "https://pokeapi.co/api/v2/pokemon/" +
+              this.pokemonName.toLowerCase()
+          )
           .then((result) => {
-              this.addPokemonAction(result.data);
+            this.clearPokemonsAction();
+            this.addPokemonAction(result.data);
+            this.pokemonName = "";
           })
           .catch((err) => {
             console.log(err);
-            console.log("dfgdfgdkldfgkldhfgkldfglg");
+          });
+      }else if(this.getPokemons.length == 1){
+        this.changeFilterValueAction(false);
+      this.clearPokemonsAction();
+      this.loadPokemons();
+      }
+    },
+    async loadPokemons() {
+      for (let i = 1; i <= 10; i++) {
+        await axios
+          .get("https://pokeapi.co/api/v2/pokemon/" + i)
+          .then((result) => {
+            this.addPokemonAction(result.data);
+          })
+          .catch((err) => {
+            console.log(err);
           });
       }
     },
@@ -65,13 +75,16 @@ export default {
       outline: none;
     }
   }
-  button{
+  button {
     height: 65%;
     width: 20%;
     border: none;
     color: white;
     background-color: #212121;
     border-radius: 10px;
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 </style>
