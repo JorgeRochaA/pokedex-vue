@@ -10,7 +10,7 @@ export default new Vuex.Store({
     filterByName: false,
     scrollPagination: {
       currentID: 1,
-      limit: 151, // max 898
+      limit: 5, // max 898
     },
   },
   mutations: {
