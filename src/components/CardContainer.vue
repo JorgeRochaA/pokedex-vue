@@ -1,5 +1,5 @@
 <template>
-  <div class="cardContainer">
+  <div class="cardContainer" id="cardContainer">
     <div class="card_container">
       <Card
         v-for="pokemon in getPokemons"

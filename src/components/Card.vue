@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="colorName">
+  <div class="card" :class="colorName" v-on:click="getColor()">
     <div class="number">
       <h3>#{{ id }}</h3>
     </div>
@@ -20,6 +20,12 @@ export default {
     name: null,
     colorName: null,
   },
+  methods: {
+    getColor() {
+      localStorage.setItem("colorName", this.colorName);
+      this.$router.push("Pokemon/" + this.id);
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -38,6 +44,7 @@ export default {
     justify-content: flex-end;
     align-items: center;
     background-color: white;
+    
     h3 {
       margin-right: 20px;
     }

@@ -52,6 +52,7 @@ export default {
 <style scoped lang="scss">
 .navbar {
   height: 75px;
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;

@@ -1,14 +1,15 @@
 <template>
   <div class="home">
-    <Navbar />
-    <SearchBar />
+    <div class="container">
+      <Navbar />
+      <SearchBar />
+    </div>
     <CardContainer />
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Navbar from "../components/Navbar.vue";
 import SearchBar from "../components/SearchBar.vue";
 import CardContainer from "../components/CardContainer.vue";
@@ -20,22 +21,20 @@ export default {
     CardContainer,
   },
   mounted() {
-    this.loadPokemons();
+    this.loadPokemonsAction();
+  },
+  computed: {
+    ...mapGetters(["getScrollPaginationValue"]),
   },
   methods: {
-    ...mapActions(["addPokemonAction"]),
-   async loadPokemons() {
-      for (let i = 1; i <= 10; i++) {
-        await axios
-          .get("https://pokeapi.co/api/v2/pokemon/" + i)
-          .then((result) => {
-              this.addPokemonAction(result.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    },
+    ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
   },
 };
 </script>
+<style scoped lang="scss">
+.container {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+</style>

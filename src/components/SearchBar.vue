@@ -6,7 +6,7 @@
 </template>
 <script>
 import axios from "axios";
-import { mapGetters,mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "SearchBar",
   data() {
@@ -14,15 +14,20 @@ export default {
       pokemonName: "",
     };
   },
-  computed:{
+  computed: {
     ...mapGetters(["getPokemons"]),
   },
   methods: {
-    ...mapActions(["addPokemonAction", "clearPokemonsAction","changeFilterValueAction"]),
+    ...mapActions([
+      "addPokemonAction",
+      "clearPokemonsAction",
+      "changeFilterValueAction",
+      "loadPokemonsAction",
+    ]),
     filter() {
       if (!this.pokemonName == "") {
         this.changeFilterValueAction(false);
-         axios
+        axios
           .get(
             "https://pokeapi.co/api/v2/pokemon/" +
               this.pokemonName.toLowerCase()
@@ -35,22 +40,10 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      }else if(this.getPokemons.length == 1){
+      } else if (this.getPokemons.length == 1) {
         this.changeFilterValueAction(false);
-      this.clearPokemonsAction();
-      this.loadPokemons();
-      }
-    },
-    async loadPokemons() {
-      for (let i = 1; i <= 10; i++) {
-        await axios
-          .get("https://pokeapi.co/api/v2/pokemon/" + i)
-          .then((result) => {
-            this.addPokemonAction(result.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.clearPokemonsAction();
+        this.loadPokemonsAction();
       }
     },
   },
@@ -82,7 +75,7 @@ export default {
     color: white;
     background-color: #212121;
     border-radius: 10px;
-    &:hover{
+    &:hover {
       cursor: pointer;
     }
   }
