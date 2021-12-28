@@ -1,7 +1,15 @@
 <template>
   <div class="searchBar">
     <input type="text" placeholder="🔎  Search By Name" v-model="pokemonName" />
-    <button v-on:click="filter()">Search</button>
+    <div class="button_container">
+      <button v-on:click="filter()">Search</button>
+      <img
+        class="pikachu"
+        src="https://img1.picmix.com/output/stamp/normal/0/9/0/4/1604090_a14a5.gif"
+        alt="pikachu"
+        id="pikachu"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -27,6 +35,10 @@ export default {
     filter() {
       if (!this.pokemonName == "") {
         this.changeFilterValueAction(false);
+        document.getElementById("pikachu").classList.add("search");
+        setTimeout(() => {
+          document.getElementById("pikachu").classList.remove("search");
+        }, 2000);
         axios
           .get(
             "https://pokeapi.co/api/v2/pokemon/" +
@@ -41,6 +53,10 @@ export default {
             console.log(err);
           });
       } else if (this.getPokemons.length == 1) {
+              document.getElementById("pikachu").classList.add("search");
+        setTimeout(() => {
+          document.getElementById("pikachu").classList.remove("search");
+        }, 2000);
         this.changeFilterValueAction(false);
         this.clearPokemonsAction();
         this.loadPokemonsAction();
@@ -68,16 +84,39 @@ export default {
       outline: none;
     }
   }
-  button {
+  .button_container {
     height: 65%;
     width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+     button {
+    height: 100%;
+    width: 100%;
     border: none;
     color: white;
     background-color: #212121;
     border-radius: 10px;
+
     &:hover {
       cursor: pointer;
     }
+  }
+  .pikachu {
+    height: 45px;
+    position: absolute;
+    background-color: white;
+    z-index: -1;
+    transition: 0.5s;
+    cursor: pointer;
+    pointer-events: none;
+    &.search {
+      display: initial;
+      transform: translateY(-50px);
+    }
+  }
+
   }
 }
 </style>
