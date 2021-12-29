@@ -20,9 +20,13 @@ export default {
     id: null,
   },
   methods: {
-    ...mapActions(["clearPokemonsAction"]),
+    ...mapActions(["clearPokemonsAction","changeScrollPaginationValueAction"]),
     goBack() {
       this.clearPokemonsAction();
+       this.changeScrollPaginationValueAction({
+        currentID: 1,
+        limit: 5, // max 898
+      });
       this.$router.push("/");
     },
   },
@@ -61,6 +65,10 @@ export default {
     height: 100%;
     width: 40%;
     @include display_flex;
+
+    :first-letter {
+      text-transform: uppercase;
+    }
   }
 
   .number_container {
