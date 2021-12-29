@@ -21,13 +21,14 @@ export default {
     CardContainer,
   },
   mounted() {
+    this.clearPokemonsAction();
     this.loadPokemonsAction();
   },
   computed: {
     ...mapGetters(["getScrollPaginationValue"]),
   },
   methods: {
-    ...mapActions(["loadPokemonsAction"]),
+    ...mapActions(["loadPokemonsAction","clearPokemonsAction"]),
   },
 };
 </script>
