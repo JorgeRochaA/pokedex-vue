@@ -44,7 +44,7 @@ export default {
     justify-content: flex-end;
     align-items: center;
     background-color: white;
-    
+
     h3 {
       margin-right: 20px;
     }
@@ -69,6 +69,10 @@ export default {
     justify-content: center;
     align-items: center;
     color: white;
+
+    :first-letter {
+      text-transform: uppercase;
+    }
 
     &.normal {
       background-color: #a8a77a;
@@ -249,6 +253,9 @@ export default {
     color: #d685ad;
     border-color: #d685ad;
     background-color: #d685ad;
+  }
+  &:hover {
+    cursor: pointer;
   }
 }
 @media screen and (min-width: 910px) and (max-width: 1199px) {
