@@ -34,6 +34,7 @@ export default {
     ]),
     filter() {
       if (!this.pokemonName == "") {
+        document.getElementById("loadMorePokemons").style.display = "none";
         this.changeFilterValueAction(false);
         document.getElementById("pikachu").classList.add("search");
         setTimeout(() => {
@@ -53,6 +54,7 @@ export default {
             console.log(err);
           });
       } else if (this.getPokemons.length == 1) {
+        document.getElementById("loadMorePokemons").style.display = "initial";
               document.getElementById("pikachu").classList.add("search");
         setTimeout(() => {
           document.getElementById("pikachu").classList.remove("search");
