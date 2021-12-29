@@ -27,7 +27,7 @@ export default {
     ...mapGetters(["getScrollPaginationValue"]),
   },
   methods: {
-    ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
+    ...mapActions(["loadPokemonsAction"]),
   },
 };
 </script>
