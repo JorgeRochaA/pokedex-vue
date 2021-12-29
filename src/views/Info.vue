@@ -7,6 +7,7 @@
     <PokemonStats
       :img_url="this.sprites.front_default"
       :alt_name="this.currentPokemon.name"
+      :pokemonData="this.currentPokemon"
     />
   </div>
 </template>
