@@ -5,7 +5,7 @@
       <img src="../assets/Pokeball_Info.svg" alt="poke" />
     </div>
     <PokemonStats
-      :img_url="this.sprites.front_default"
+      :img_url="this.sprites.other.home"
       :alt_name="this.currentPokemon.name"
       :pokemonData="this.currentPokemon"
     />

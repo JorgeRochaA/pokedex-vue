@@ -5,9 +5,10 @@
         v-for="pokemon in getPokemons"
         :key="pokemon.id"
         :id="pokemon.id"
-        :img="pokemon.sprites.front_default"
+        :img="pokemon.sprites.other.home.front_default"
         :name="pokemon.name"
         :colorName="pokemon.types[0].type.name"
+        :types="pokemon.types"
       />
       <button v-on:click="this.loadMorePokemons" id="loadMorePokemons">
         Load more
@@ -29,6 +30,7 @@ export default {
   methods: {
     ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
     loadMorePokemons() {
+      console.log(this.getPokemons)
       this.changeScrollPaginationValueAction({
         currentID: this.getScrollPaginationValue.limit + 1,
         limit: this.getScrollPaginationValue.limit + 5, // max 898
@@ -47,6 +49,9 @@ export default {
     border-radius: 10px;
     color: white;
     margin: 50px;
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 

@@ -28,7 +28,7 @@ export default {
     ...mapGetters(["getScrollPaginationValue"]),
   },
   methods: {
-    ...mapActions(["loadPokemonsAction","clearPokemonsAction"]),
+    ...mapActions(["loadPokemonsAction", "clearPokemonsAction"]),
   },
 };
 </script>
@@ -36,6 +36,7 @@ export default {
 .container {
   position: sticky;
   top: 0;
-  background-color: white;
+  z-index: 5;
+  background: white;
 }
 </style>

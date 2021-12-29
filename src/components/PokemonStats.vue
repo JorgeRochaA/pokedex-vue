@@ -1,18 +1,19 @@
 <template>
   <div class="pokemonStats">
     <div class="pokemon_img">
-      <img
-        class="pokeball"
-        src="../assets/pokeball-roll.png"
-        alt="pokeball"
-        id="poke"
-      />
       <div class="img_container" id="img_container">
-        <img :src="img_url" alt="" />
+        <img
+          v-if="this.shiny"
+          :src="this.img_url.front_shiny"
+          :alt="this.data.name"
+        />
+        <img v-else :src="this.img_url.front_default" :alt="this.data.name" />
       </div>
     </div>
     <div class="stats_container">
-      <div class="spacer"></div>
+      <div class="spacer">
+        <button v-on:click="showShiny()">Toggle Shiny</button>
+      </div>
       <div class="type_container">
         <div v-for="type in this.data.types" :key="type.slot">
           <div class="type" :class="type.type.name">
@@ -75,18 +76,11 @@ export default {
     return {
       poke: [],
       statsData: [],
+      shiny: false,
     };
   },
   mounted() {
     this.data;
-    document.getElementById("img_container").style.display = "none";
-    setTimeout(() => {
-      document.getElementById("img_container").style.display = "flex";
-    }, 200);
-    setTimeout(() => {
-      let pokeball = document.getElementById("poke");
-      pokeball.style.display = "none";
-    }, 2000);
   },
   computed: {
     data() {
@@ -121,6 +115,9 @@ export default {
         });
       }, 100);
     },
+    showShiny() {
+      this.shiny = !this.shiny;
+    },
   },
 };
 </script>
@@ -134,6 +131,25 @@ export default {
 @mixin spacer-type_container-type-styles {
   .spacer {
     height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+      min-width: 50px;
+      padding: 10px;
+      border-radius: 5px;
+      margin-right: 15px;
+      position: relative;
+      z-index: 2;
+      border: none;
+      background-color: #212121;
+      color: white;
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
   .type_container {
     height: 50px;
@@ -254,31 +270,28 @@ export default {
 
   .pokemon_img {
     margin-top: 30px;
-    height: 75px;
+    height: 150px;
     width: 100%;
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
-    .pokeball {
-      height: 150px;
-      width: 150px;
-      border-radius: 50%;
-      animation: fall 0.25s ease-in-out, spin 1000ms linear infinite,
-        moveLeftToRight 2s linear infinite;
-      position: absolute;
-      top: 0;
-    }
 
     .img_container {
-      height: 150px;
-      width: 150px;
-      border-radius: 50%;
+      height: 250px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      background-color: white;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0%;
+      right: 0;
+      margin: auto;
+      pointer-events: none;
+      img {
+        margin-top: 30px;
+        height: 100%;
+        pointer-events: none;
+        position: absolute;
+        animation: slide 1s ease 0s 1 normal forwards;
+      }
     }
   }
 
@@ -371,11 +384,17 @@ export default {
   }
 }
 @media screen and (min-width: 700px) {
+  .img_container {
+    justify-content: center;
+  }
   .stats_container {
     @include base_stats_container-styles(250px);
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+  .img_container {
+    justify-content: center;
+  }
   .stats_container {
     @include mb_50px;
     @include define_height(400px);
@@ -386,6 +405,9 @@ export default {
 }
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
+  .img_container {
+    justify-content: center;
+  }
   .stats_container {
     @include mb_50px;
     @include define_height(500px);
@@ -400,6 +422,9 @@ export default {
 }
 
 @media only screen and (max-width: 575px) {
+  .img_container {
+    justify-content: flex-start;
+  }
   .stats_container {
     display: flex;
     flex-direction: column;
@@ -409,6 +434,7 @@ export default {
     @include spacer-type_container-type-styles;
     @include about_style;
     @include base_stats_container-styles(250px);
+
     .base_stats_container {
       display: grid;
       grid-template-columns: auto auto auto;
@@ -416,35 +442,13 @@ export default {
   }
 }
 // Animation
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+@keyframes slide {
+  0% {
+    transform: translateX(-150%);
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@keyframes moveLeftToRight {
-  0% {
-    left: 40%;
-  }
   100% {
-    left: 120%;
-  }
-}
-@keyframes fall {
-  0% {
-    top: -200px;
-  }
-  60% {
-    top: 0;
-  }
-  80% {
-    top: -20px;
-  }
-  100% {
-    top: 0;
+    transform: translateX(0px);
   }
 }
 </style>

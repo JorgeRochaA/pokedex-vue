@@ -74,6 +74,8 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  position: sticky;
+  top: 0;
 
   input {
     height: 65%;
@@ -108,7 +110,6 @@ export default {
   .pikachu {
     height: 45px;
     position: absolute;
-    background-color: white;
     z-index: -1;
     transition: 0.5s;
     cursor: pointer;
