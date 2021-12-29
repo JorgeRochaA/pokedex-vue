@@ -9,11 +9,14 @@
         :name="pokemon.name"
         :colorName="pokemon.types[0].type.name"
       />
+      <button v-on:click="this.loadMorePokemons" id="loadMorePokemons">
+        Load more
+      </button>
     </div>
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Card from "../components/Card.vue";
 export default {
   name: "CardContainer",
@@ -21,11 +24,32 @@ export default {
     Card,
   },
   computed: {
-    ...mapGetters(["getPokemons"]),
+    ...mapGetters(["getPokemons", "getScrollPaginationValue"]),
+  },
+  methods: {
+    ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
+    loadMorePokemons() {
+      this.changeScrollPaginationValueAction({
+        currentID: this.getScrollPaginationValue.limit + 1,
+        limit: this.getScrollPaginationValue.limit + 5, // max 898
+      });
+      this.loadPokemonsAction();
+    },
   },
 };
 </script>
 <style scoped lang="scss">
+@mixin loadMorePokemonsStyle {
+  #loadMorePokemons {
+    height: 50px;
+    border: none;
+    background-color: #212121;
+    border-radius: 10px;
+    color: white;
+    margin: 50px;
+  }
+}
+
 .cardContainer {
   height: 100%;
   width: 100%;
@@ -37,6 +61,8 @@ export default {
     height: 100%;
     min-height: 200px;
     width: 90%;
+
+    @include loadMorePokemonsStyle;
   }
   @media only screen and (min-width: 1200px) {
     .card_container {
@@ -44,14 +70,14 @@ export default {
       justify-content: space-evenly;
     }
   }
-  /* Escritorio grande */
+  
   @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .card_container {
       grid-template-columns: auto auto auto;
       justify-content: space-evenly;
     }
   }
-  /* Escritorio pequeño / tablet */
+  
   @media only screen and (min-width: 768px) and (max-width: 991px) {
     .card_container {
       grid-template-columns: auto auto;
@@ -63,7 +89,7 @@ export default {
       grid-template-columns: auto auto auto auto;
     }
   }
-  /* Tablets y phablets */
+  
   @media only screen and (min-width: 576px) and (max-width: 767px) {
     .card_container {
       width: 100%;
@@ -72,7 +98,6 @@ export default {
     }
   }
 
-  /* Teléfonos */
   @media only screen and (max-width: 575px) {
     .card_container {
       grid-template-columns: auto;
