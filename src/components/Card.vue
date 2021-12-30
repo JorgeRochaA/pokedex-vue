@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="colorName" v-on:click="getColor()">
+  <div class="card" :class="colorName" v-on:click="moreInfo()">
     <div class="name_id_container">
       <h3>{{ name }}</h3>
       <h4>#{{ id }}</h4>
@@ -27,8 +27,7 @@ export default {
     types: null,
   },
   methods: {
-    getColor() {
-      localStorage.setItem("colorName", this.colorName);
+    moreInfo() {
       this.$router.push("Pokemon/" + this.id);
     },
   },

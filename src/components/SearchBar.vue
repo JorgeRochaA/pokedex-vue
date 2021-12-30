@@ -2,7 +2,7 @@
   <div class="searchBar">
     <input type="text" placeholder="🔎  Search By Name" v-model="pokemonName" />
     <div class="button_container">
-      <button v-on:click="filter()">Search</button>
+      <button class="btn" v-on:click="filter()">Search</button>
       <img
         class="pikachu"
         src="https://img1.picmix.com/output/stamp/normal/0/9/0/4/1604090_a14a5.gif"
@@ -29,13 +29,11 @@ export default {
     ...mapActions([
       "addPokemonAction",
       "clearPokemonsAction",
-      "changeFilterValueAction",
       "loadPokemonsAction",
     ]),
     filter() {
       if (!this.pokemonName == "") {
         document.getElementById("loadMorePokemons").style.display = "none";
-        this.changeFilterValueAction(false);
         document.getElementById("pikachu").classList.add("search");
         setTimeout(() => {
           document.getElementById("pikachu").classList.remove("search");
@@ -55,11 +53,10 @@ export default {
           });
       } else if (this.getPokemons.length == 1) {
         document.getElementById("loadMorePokemons").style.display = "initial";
-              document.getElementById("pikachu").classList.add("search");
+        document.getElementById("pikachu").classList.add("search");
         setTimeout(() => {
           document.getElementById("pikachu").classList.remove("search");
         }, 2000);
-        this.changeFilterValueAction(false);
         this.clearPokemonsAction();
         this.loadPokemonsAction();
       }
@@ -95,31 +92,30 @@ export default {
     justify-content: center;
     align-items: center;
 
-     button {
-    height: 100%;
-    width: 100%;
-    border: none;
-    color: white;
-    background-color: #212121;
-    border-radius: 10px;
+    .btn {
+      height: 100%;
+      width: 100%;
+      border: none;
+      color: white;
+      background-color: #212121;
+      border-radius: 10px;
 
-    &:hover {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .pikachu {
+      height: 45px;
+      position: absolute;
+      z-index: -1;
+      transition: 0.5s;
       cursor: pointer;
+      pointer-events: none;
+      &.search {
+        display: initial;
+        transform: translateY(50px);
+      }
     }
-  }
-  .pikachu {
-    height: 45px;
-    position: absolute;
-    z-index: -1;
-    transition: 0.5s;
-    cursor: pointer;
-    pointer-events: none;
-    &.search {
-      display: initial;
-      transform: translateY(-50px);
-    }
-  }
-
   }
 }
 </style>

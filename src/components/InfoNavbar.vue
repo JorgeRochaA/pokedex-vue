@@ -4,29 +4,24 @@
       <img src="../assets/arrow-left.svg" alt="go_back" />
     </div>
     <div class="name_container">
-      <h2>{{ name }}</h2>
+      <h2>{{ this.getCurrentPokemon.name }}</h2>
     </div>
     <div class="number_container">
-      <h3>#{{ id }}</h3>
+      <h3>#{{ this.getCurrentPokemon.id }}</h3>
     </div>
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapGetters,mapActions } from "vuex";
 export default {
   name: "infoNavbar",
-  props: {
-    name: null,
-    id: null,
+  computed: {
+    ...mapGetters(["getCurrentPokemon"]),
   },
   methods: {
-    ...mapActions(["clearPokemonsAction","changeScrollPaginationValueAction"]),
+    ...mapActions(["clearPokemonsAction","setCurrentPokemon"]),
     goBack() {
-      this.clearPokemonsAction();
-       this.changeScrollPaginationValueAction({
-        currentID: 1,
-        limit: 5, // max 898
-      });
+      this.setCurrentPokemon();
       this.$router.push("/");
     },
   },

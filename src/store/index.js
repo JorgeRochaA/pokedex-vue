@@ -7,10 +7,19 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     pokemons: [],
-    filterByName: false,
     scrollPagination: {
       currentID: 1,
       limit: 5, // max 898
+    },
+    currentPokemon: {
+      name: "",
+      id: 0,
+      img: [],
+      types: [],
+      height: 0,
+      weight: 0,
+      stats: [],
+      bg_color:""
     },
   },
   mutations: {
@@ -21,24 +30,11 @@ export default new Vuex.Store({
     clearPokemons(state) {
       state.pokemons = [];
     },
-    sortPokemons(state, payload) {
-      if (payload == "name") {
-        state.pokemons.sort(function (a, b) {
-          if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-          return 0;
-        });
-      } else {
-        state.pokemons.sort(function (a, b) {
-          return a.id - b.id;
-        });
-      }
-    },
-    changeFilterValue(state, payload) {
-      state.filterByName = payload;
-    },
     changeScrollPaginationValue(state, payload) {
       state.scrollPagination = payload;
+    },
+    setCurrentPokemon(state, payload) {
+      state.currentPokemon = payload;
     },
   },
   actions: {
@@ -47,12 +43,6 @@ export default new Vuex.Store({
     },
     clearPokemonsAction({ commit }) {
       commit("clearPokemons");
-    },
-    sortPokemonsAction({ commit }, payload) {
-      commit("sortPokemons", payload);
-    },
-    changeFilterValueAction({ commit }, payload) {
-      commit("changeFilterValue", payload);
     },
     async loadPokemonsAction({ commit }) {
       for (
@@ -73,11 +63,13 @@ export default new Vuex.Store({
     changeScrollPaginationValueAction({ commit }, payload) {
       commit("changeScrollPaginationValue", payload);
     },
+    setCurrentPokemon({ commit }, payload) {
+      commit("setCurrentPokemon", payload);
+    },
   },
   getters: {
     getPokemons: (state) => state.pokemons,
-    getFilterValue: (state) => state.filterByName,
     getScrollPaginationValue: (state) => state.scrollPagination,
-    getCurrentPokemon: () => JSON.parse(localStorage.getItem("currentPokemon")),
+    getCurrentPokemon: (state) => state.currentPokemon,
   },
 });

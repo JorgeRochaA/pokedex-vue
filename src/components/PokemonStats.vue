@@ -3,19 +3,37 @@
     <div class="pokemon_img">
       <div class="img_container" id="img_container">
         <img
-          v-if="this.shiny"
-          :src="this.img_url.front_shiny"
-          :alt="this.data.name"
+          v-if="!this.shiny"
+          class="animated"
+          :src="this.getCurrentPokemon.img.front_default"
+          :alt="this.getCurrentPokemon.name"
         />
-        <img v-else :src="this.img_url.front_default" :alt="this.data.name" />
+        <img
+          v-else
+          :src="this.getCurrentPokemon.img.front_shiny"
+          :alt="this.getCurrentPokemon.name"
+        />
       </div>
     </div>
     <div class="stats_container">
       <div class="spacer">
-        <button v-on:click="showShiny()">Toggle Shiny</button>
+        <img
+          v-if="this.getCurrentPokemon.id > 1"
+          class="left"
+          src="../assets/arrow-right.svg"
+          alt="arrow"
+          v-on:click="previous()"
+        />
+        <img
+          v-if="this.getCurrentPokemon.id < 898"
+          class="right"
+          src="../assets/arrow-right.svg"
+          alt="arrow"
+          v-on:click="next()"
+        />
       </div>
       <div class="type_container">
-        <div v-for="type in this.data.types" :key="type.slot">
+        <div v-for="type in this.getCurrentPokemon.types" :key="type.slot">
           <div class="type" :class="type.type.name">
             {{ type.type.name }}
           </div>
@@ -43,13 +61,13 @@
       <div class="base_stats_container">
         <div
           class="progress_container"
-          v-for="(item, index) in this.data.stats"
+          v-for="(poke_stat, index) in this.getCurrentPokemon.stats"
           :key="index"
         >
           <svg class="progress" width="50" height="50">
             <circle
               class="progress-circle"
-              :class="item.stat.name"
+              :class="poke_stat.stat.name"
               cx="50"
               cy="50"
               r="30"
@@ -57,21 +75,18 @@
               stroke-width="5px"
             />
           </svg>
-          <h5>{{ item.stat.name }}</h5>
-          <h4>{{ item.base_stat }}%</h4>
+          <h5>{{ poke_stat.stat.name }}</h5>
+          <h4>{{ poke_stat.base_stat }}%</h4>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "pokemonStats",
-  props: {
-    img_url: null,
-    alt_name: null,
-    pokemonData: null,
-  },
   data() {
     return {
       poke: [],
@@ -80,30 +95,26 @@ export default {
     };
   },
   mounted() {
-    this.data;
+    this.fillStrokeStats();
   },
   computed: {
-    data() {
-      if (this.$props.pokemonData.stats) {
-        this.fillStrokeStats();
-      }
-      return this.$props.pokemonData;
-    },
+    ...mapGetters(["getCurrentPokemon"]),
     dataHeight() {
-      let num = this.data.height * 0.1;
+      let num = this.getCurrentPokemon.height * 0.1;
       return num.toFixed(1);
     },
     dataWeight() {
-      let num = this.data.weight * 0.1;
+      let num = this.getCurrentPokemon.weight * 0.1;
       return num.toFixed(1);
     },
   },
   methods: {
+    ...mapActions(["setCurrentPokemon"]),
     fillStrokeStats() {
       setTimeout(() => {
         const circle = document.querySelector(".progress-circle");
         let circunference = circle.getTotalLength();
-        this.$props.pokemonData.stats.forEach((element) => {
+        this.getCurrentPokemon.stats.forEach((element) => {
           let stat_circle = document.querySelector("." + element.stat.name);
           let result =
             circunference - (element.base_stat / 100) * circunference;
@@ -113,10 +124,57 @@ export default {
             stat_circle.style.strokeDashoffset = 0;
           }
         });
-      }, 100);
+      }, 200);
     },
     showShiny() {
       this.shiny = !this.shiny;
+    },
+    next() {
+      this.$router.push({
+        path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
+      });
+      let img = document.querySelector(".animated");
+      img.style.display = "none";
+      img.classList.remove("animated");
+      setTimeout(() => {
+        img.style.display = "initial";
+        img.classList.add("animated");
+      }, 100);
+      this.reloadPokemon(this.getCurrentPokemon.id + 1);
+    },
+    previous() {
+      this.$router.push({
+        path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
+      });
+      let img = document.querySelector(".animated");
+      img.style.display = "none";
+      img.classList.remove("animated");
+      setTimeout(() => {
+        img.style.display = "initial";
+        img.classList.add("animated");
+      }, 100);
+      this.reloadPokemon(this.getCurrentPokemon.id - 1);
+    },
+    async reloadPokemon(id) {
+      await axios
+        .get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        .then((result) => {
+          this.setCurrentPokemon({
+            name: result.data.name,
+            id: result.data.id,
+            img: result.data.sprites.other.home,
+            types: result.data.types,
+            height: result.data.height,
+            weight: result.data.weight,
+            stats: result.data.stats,
+            bg_color: result.data.types[0].type.name,
+          });
+          this.fillStrokeStats();
+          this.$route.params.id = id;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -133,14 +191,25 @@ export default {
     height: 80px;
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+
+    .left {
+      margin-left: 20px;
+      height: 35px;
+      transform: rotate(-180deg);
+    }
+
+    .right {
+      margin-left: auto;
+      margin-right: 20px;
+      height: 35px;
+    }
 
     button {
       min-width: 50px;
       padding: 10px;
       border-radius: 5px;
-      margin-right: 15px;
       position: relative;
       z-index: 2;
       border: none;
@@ -273,7 +342,6 @@ export default {
     height: 150px;
     width: 100%;
     position: relative;
-
     .img_container {
       height: 250px;
       display: flex;
@@ -281,7 +349,7 @@ export default {
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 0%;
+      left: 0;
       right: 0;
       margin: auto;
       pointer-events: none;
@@ -291,7 +359,10 @@ export default {
         height: 100%;
         pointer-events: none;
         position: absolute;
-        animation: slide 1s ease 0s 1 normal forwards;
+        z-index: 4;
+        &.animated {
+          animation: slide 1s ease 0s 1 normal forwards;
+        }
       }
     }
   }
@@ -424,7 +495,7 @@ export default {
 
 @media only screen and (max-width: 575px) {
   .img_container {
-    justify-content: flex-start;
+    justify-content: center;
   }
   .stats_container {
     display: flex;

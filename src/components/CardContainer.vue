@@ -10,7 +10,7 @@
         :colorName="pokemon.types[0].type.name"
         :types="pokemon.types"
       />
-      <button v-on:click="this.loadMorePokemons" id="loadMorePokemons">
+      <button v-if="this.getPokemons.length < 898" v-on:click="this.loadMorePokemons" id="loadMorePokemons">
         Load more
       </button>
     </div>
@@ -25,17 +25,17 @@ export default {
     Card,
   },
   computed: {
-    ...mapGetters(["getPokemons", "getScrollPaginationValue"]),
+    ...mapGetters(["getPokemons","getScrollPaginationValue"]),
   },
   methods: {
-    ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
-    loadMorePokemons() {
-      console.log(this.getPokemons)
+    ...mapActions(["loadPokemonsAction","changeScrollPaginationValueAction"]),
+   async  loadMorePokemons() {
       this.changeScrollPaginationValueAction({
         currentID: this.getScrollPaginationValue.limit + 1,
         limit: this.getScrollPaginationValue.limit + 5, // max 898
       });
-      this.loadPokemonsAction();
+      
+     await this.loadPokemonsAction();
     },
   },
 };

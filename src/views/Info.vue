@@ -1,44 +1,45 @@
 <template>
-  <div class="info" :class="this.bg_color">
-    <InfoNavbar :name="this.currentPokemon.name" :id="this.currentPokemon.id" />
+  <div class="info" :class="this.getCurrentPokemon.bg_color">
+    <InfoNavbar />
     <div class="pokeball_container">
       <img src="../assets/Pokeball_Info.svg" alt="poke" />
     </div>
-    <PokemonStats
-      :img_url="this.sprites.other.home"
-      :alt_name="this.currentPokemon.name"
-      :pokemonData="this.currentPokemon"
-    />
+    <PokemonStats/>
   </div>
 </template>
 <script>
 import axios from "axios";
 import InfoNavbar from "../components/InfoNavbar.vue";
 import PokemonStats from "../components/PokemonStats.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "info",
   components: {
     InfoNavbar,
     PokemonStats,
   },
-  data() {
-    return {
-      bg_color: "",
-      currentPokemon: [],
-      sprites: [],
-    };
-  },
   async mounted() {
     await this.addCurrentPokemon(this.$route.params.id);
   },
+  computed: {
+    ...mapGetters(["getCurrentPokemon"]),
+  },
   methods: {
+    ...mapActions(["setCurrentPokemon"]),
     async addCurrentPokemon(id) {
       await axios
         .get("https://pokeapi.co/api/v2/pokemon/" + id)
         .then((result) => {
-          this.currentPokemon = result.data;
-          this.sprites = result.data.sprites;
-          this.bg_color = result.data.types[0].type.name;
+          this.setCurrentPokemon({
+            name: result.data.name,
+            id: result.data.id,
+            img: result.data.sprites.other.home,
+            types: result.data.types,
+            height: result.data.height,
+            weight: result.data.weight,
+            stats: result.data.stats,
+            bg_color: result.data.types[0].type.name,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -55,6 +56,7 @@ export default {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  transition: .5s;
 
   .pokeball_container {
     position: absolute;
