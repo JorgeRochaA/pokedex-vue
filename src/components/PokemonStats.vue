@@ -4,7 +4,7 @@
       <div class="img_container" id="img_container">
         <img
           v-if="!this.shiny"
-          class="animated"
+          class="animated_img"
           :src="this.getCurrentPokemon.img.front_default"
           :alt="this.getCurrentPokemon.name"
         />
@@ -125,6 +125,13 @@ export default {
           }
         });
       }, 200);
+      let img = document.querySelector(".animated_img");
+      img.style.display = "none";
+      img.classList.remove("animated");
+      setTimeout(() => {
+        img.style.display = "initial";
+        img.classList.add("animated");
+      }, 100);
     },
     showShiny() {
       this.shiny = !this.shiny;
@@ -133,26 +140,12 @@ export default {
       this.$router.push({
         path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
       });
-      let img = document.querySelector(".animated");
-      img.style.display = "none";
-      img.classList.remove("animated");
-      setTimeout(() => {
-        img.style.display = "initial";
-        img.classList.add("animated");
-      }, 100);
       this.reloadPokemon(this.getCurrentPokemon.id + 1);
     },
     previous() {
       this.$router.push({
         path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
       });
-      let img = document.querySelector(".animated");
-      img.style.display = "none";
-      img.classList.remove("animated");
-      setTimeout(() => {
-        img.style.display = "initial";
-        img.classList.add("animated");
-      }, 100);
       this.reloadPokemon(this.getCurrentPokemon.id - 1);
     },
     async reloadPokemon(id) {
@@ -198,23 +191,17 @@ export default {
       margin-left: 20px;
       height: 35px;
       transform: rotate(-180deg);
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .right {
       margin-left: auto;
       margin-right: 20px;
       height: 35px;
-    }
-
-    button {
-      min-width: 50px;
-      padding: 10px;
-      border-radius: 5px;
       position: relative;
       z-index: 2;
-      border: none;
-      background-color: #212121;
-      color: white;
       &:hover {
         cursor: pointer;
       }
@@ -342,6 +329,10 @@ export default {
     height: 150px;
     width: 100%;
     position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+
     .img_container {
       height: 250px;
       display: flex;
@@ -352,13 +343,12 @@ export default {
       left: 0;
       right: 0;
       margin: auto;
-      pointer-events: none;
 
       img {
         margin-top: 30px;
         height: 100%;
-        pointer-events: none;
         position: absolute;
+        pointer-events: none;
         z-index: 4;
         &.animated {
           animation: slide 1s ease 0s 1 normal forwards;
