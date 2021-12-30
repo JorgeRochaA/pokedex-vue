@@ -285,6 +285,7 @@ export default {
       right: 0;
       margin: auto;
       pointer-events: none;
+
       img {
         margin-top: 30px;
         height: 100%;

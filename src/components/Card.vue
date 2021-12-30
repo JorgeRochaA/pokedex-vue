@@ -1,20 +1,10 @@
 <template>
   <div class="card" :class="colorName" v-on:click="getColor()">
     <div class="name_id_container">
-      <h2>{{ name }}</h2>
-      <h3>#{{ id }}</h3>
+      <h3>{{ name }}</h3>
+      <h4>#{{ id }}</h4>
     </div>
     <div class="types_img_container">
-      <div class="type_container">
-        <h3
-          class="type"
-          v-for="(type, index) in types"
-          :key="index"
-          :class="type.type.name"
-        >
-          {{ type.type.name }}
-        </h3>
-      </div>
       <div class="img_poke_container">
         <img class="poke_img" :src="img" :alt="name" />
         <img
@@ -68,98 +58,8 @@ export default {
     height: 125px;
     width: 100%;
     display: flex;
+    justify-content: flex-end;
     pointer-events: none;
-
-    .type_container {
-      height: 100%;
-      width: 40%;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-
-      .type {
-        padding: 10px;
-        border-radius: 5px;
-        margin-left: 10px;
-        color: white;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-          rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-
-        &.normal {
-          background-color: #a8a77a;
-        }
-
-        &.fire {
-          background-color: #ee8130;
-        }
-
-        &.water {
-          background-color: #6390f0;
-        }
-
-        &.electric {
-          background-color: #f7d02c;
-        }
-
-        &.grass {
-          background-color: #7ac74c;
-        }
-
-        &.ice {
-          background-color: #96d9d6;
-        }
-
-        &.fighting {
-          background-color: #c22e28;
-        }
-
-        &.poison {
-          background-color: #a33ea1;
-        }
-
-        &.ground {
-          background-color: #e2bf65;
-        }
-
-        &.flying {
-          background-color: #a98ff3;
-        }
-
-        &.psychic {
-          background-color: #f95587;
-        }
-
-        &.bug {
-          background-color: #a6b91a;
-        }
-
-        &.rock {
-          background-color: #b6a136;
-        }
-
-        &.ghost {
-          background-color: #735797;
-        }
-
-        &.dragon {
-          background-color: #6f35fc;
-        }
-
-        &.dark {
-          background-color: #705746;
-        }
-
-        &.steel {
-          background-color: #b7b7ce;
-        }
-
-        &.fairy {
-          background-color: #d685ad;
-        }
-      }
-    }
 
     .img_poke_container {
       height: 100%;
@@ -169,10 +69,10 @@ export default {
       align-items: flex-start;
       pointer-events: none;
       position: relative;
-
       .poke_img {
         pointer-events: none;
         height: 90%;
+        margin-right: 10px;
       }
 
       .pokeball_info {
@@ -189,76 +89,76 @@ export default {
   }
 
   &.normal {
-          background-color: #a8a77a;
-        }
+    background-color: #a8a77a;
+  }
 
-        &.fire {
-          background-color: #ee8130;
-        }
+  &.fire {
+    background-color: #ee8130;
+  }
 
-        &.water {
-          background-color: #6390f0;
-        }
+  &.water {
+    background-color: #6390f0;
+  }
 
-        &.electric {
-          background-color: #f7d02c;
-        }
+  &.electric {
+    background-color: #f7d02c;
+  }
 
-        &.grass {
-          background-color: #7ac74c;
-        }
+  &.grass {
+    background-color: #7ac74c;
+  }
 
-        &.ice {
-          background-color: #96d9d6;
-        }
+  &.ice {
+    background-color: #96d9d6;
+  }
 
-        &.fighting {
-          background-color: #c22e28;
-        }
+  &.fighting {
+    background-color: #c22e28;
+  }
 
-        &.poison {
-          background-color: #a33ea1;
-        }
+  &.poison {
+    background-color: #a33ea1;
+  }
 
-        &.ground {
-          background-color: #e2bf65;
-        }
+  &.ground {
+    background-color: #e2bf65;
+  }
 
-        &.flying {
-          background-color: #a98ff3;
-        }
+  &.flying {
+    background-color: #a98ff3;
+  }
 
-        &.psychic {
-          background-color: #f95587;
-        }
+  &.psychic {
+    background-color: #f95587;
+  }
 
-        &.bug {
-          background-color: #a6b91a;
-        }
+  &.bug {
+    background-color: #a6b91a;
+  }
 
-        &.rock {
-          background-color: #b6a136;
-        }
+  &.rock {
+    background-color: #b6a136;
+  }
 
-        &.ghost {
-          background-color: #735797;
-        }
+  &.ghost {
+    background-color: #735797;
+  }
 
-        &.dragon {
-          background-color: #6f35fc;
-        }
+  &.dragon {
+    background-color: #6f35fc;
+  }
 
-        &.dark {
-          background-color: #705746;
-        }
+  &.dark {
+    background-color: #705746;
+  }
 
-        &.steel {
-          background-color: #b7b7ce;
-        }
+  &.steel {
+    background-color: #b7b7ce;
+  }
 
-        &.fairy {
-          background-color: #d685ad;
-        }
+  &.fairy {
+    background-color: #d685ad;
+  }
 }
 @media screen and (min-width: 910px) and (max-width: 1199px) {
   .card {
@@ -270,21 +170,6 @@ export default {
     }
     .types_img_container {
       height: 90px;
-
-      .type_container {
-        height: 100%;
-        width: 40%;
-        pointer-events: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        .type {
-          margin-left: 30px;
-          margin-bottom: 5px;
-        }
-      }
     }
   }
 }

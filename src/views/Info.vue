@@ -25,7 +25,7 @@ export default {
     return {
       bg_color: "",
       currentPokemon: [],
-      sprites:[]
+      sprites: [],
     };
   },
   async mounted() {
@@ -60,8 +60,15 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    margin-top: 15px;
-    margin-right: 30px;
+    width: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: flex-end;
+
+    img {
+      height: 300px;
+      transform: rotate(320deg);
+    }
   }
 
   &.normal {
