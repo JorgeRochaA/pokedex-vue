@@ -44,7 +44,9 @@ export default {
   margin: 15px 0;
   border-radius: 10px;
   overflow: hidden;
-
+   &:hover{
+     cursor: pointer;
+   }
   .name_id_container {
     height: 75px;
     pointer-events: none;
