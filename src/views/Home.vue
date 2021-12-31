@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 import SearchBar from "../components/SearchBar.vue";
 import CardContainer from "../components/CardContainer.vue";
@@ -19,19 +19,16 @@ export default {
     CardContainer,
   },
   mounted() {
-          this.clearPokemonsAction();
-       this.changeScrollPaginationValueAction({
-        currentID: 1,
-        limit: 5, // max 898
-      });
-    this.loadPokemonsAction();
+    if (!this.getHomeFirstRenderValue) {
+      window.scrollTo(0, this.getCurrentScroll);
+    }
   },
   computed: {
-    ...mapGetters(["getScrollPaginationValue"]),
+    ...mapGetters(["getHomeFirstRenderValue","getCurrentScroll","getScrollPaginationValue"]),
   },
-  methods: {
-    ...mapActions(["loadPokemonsAction","clearPokemonsAction","changeScrollPaginationValueAction"]),
-  },
+  methods:{
+    ...mapActions(["changeScrollPaginationValueAction","loadPokemonsAction"]),
+  }
 };
 </script>
 <style scoped lang="scss">

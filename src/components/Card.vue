@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "Card",
   props: {
@@ -27,7 +28,10 @@ export default {
     types: null,
   },
   methods: {
+    ...mapActions(["setHomeFirstRender","setCurrentScroll"]),
     moreInfo() {
+      this.setHomeFirstRender(false);
+      this.setCurrentScroll(window.scrollY);
       this.$router.push("Pokemon/" + this.id);
     },
   },
@@ -169,6 +173,28 @@ export default {
     }
     .types_img_container {
       height: 90px;
+    }
+  }
+}
+@media only screen and (max-width: 575px) {
+  .card {
+    height: 110px;
+    width: 160px;
+
+    .name_id_container {
+      height: 40px;
+      font-size: 10px;
+    }
+    .types_img_container {
+      height: 70px;
+      width: 100%;
+
+      .img_poke_container {
+        .pokeball_info {
+          height: 200%;
+          transform: rotate(320deg);
+        }
+      }
     }
   }
 }

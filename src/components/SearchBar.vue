@@ -30,10 +30,10 @@ export default {
       "addPokemonAction",
       "clearPokemonsAction",
       "loadPokemonsAction",
+      "changeScrollPaginationValueAction",
     ]),
     filter() {
       if (!this.pokemonName == "") {
-        document.getElementById("loadMorePokemons").style.display = "none";
         document.getElementById("pikachu").classList.add("search");
         setTimeout(() => {
           document.getElementById("pikachu").classList.remove("search");
@@ -52,12 +52,15 @@ export default {
             console.log(err);
           });
       } else if (this.getPokemons.length == 1) {
-        document.getElementById("loadMorePokemons").style.display = "initial";
         document.getElementById("pikachu").classList.add("search");
         setTimeout(() => {
           document.getElementById("pikachu").classList.remove("search");
         }, 2000);
         this.clearPokemonsAction();
+        this.changeScrollPaginationValueAction({
+          currentID: 1,
+          limit: 10, // max 898
+        });
         this.loadPokemonsAction();
       }
     },

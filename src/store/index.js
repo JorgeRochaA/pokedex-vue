@@ -9,7 +9,7 @@ export default new Vuex.Store({
     pokemons: [],
     scrollPagination: {
       currentID: 1,
-      limit: 5, // max 898
+      limit: 10, // max 898
     },
     currentPokemon: {
       name: "",
@@ -19,8 +19,10 @@ export default new Vuex.Store({
       height: 0,
       weight: 0,
       stats: [],
-      bg_color:""
+      bg_color: "",
     },
+    homeFirstRender: true,
+    currentScroll: 0,
   },
   mutations: {
     addPokemon(state, payload) {
@@ -35,6 +37,12 @@ export default new Vuex.Store({
     },
     setCurrentPokemon(state, payload) {
       state.currentPokemon = payload;
+    },
+    setHomeFirstRender(state, payload) {
+      state.homeFirstRender = payload;
+    },
+    setCurrentScroll(state, payload) {
+      state.currentScroll = payload;
     },
   },
   actions: {
@@ -66,10 +74,18 @@ export default new Vuex.Store({
     setCurrentPokemon({ commit }, payload) {
       commit("setCurrentPokemon", payload);
     },
+    setHomeFirstRender({ commit }, payload) {
+      commit("setHomeFirstRender", payload);
+    },
+    setCurrentScroll({ commit }, payload) {
+      commit("setCurrentScroll", payload);
+    },
   },
   getters: {
     getPokemons: (state) => state.pokemons,
     getScrollPaginationValue: (state) => state.scrollPagination,
     getCurrentPokemon: (state) => state.currentPokemon,
+    getHomeFirstRenderValue: (state) => state.homeFirstRender,
+    getCurrentScroll: (state) => state.currentScroll,
   },
 });
