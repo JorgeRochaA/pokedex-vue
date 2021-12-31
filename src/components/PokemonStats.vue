@@ -144,7 +144,7 @@ export default {
     },
     previous() {
       this.$router.push({
-        path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
+        path: `/Pokemon/${this.getCurrentPokemon.id - 1}`,
       });
       this.reloadPokemon(this.getCurrentPokemon.id - 1);
     },
