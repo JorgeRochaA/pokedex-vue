@@ -21,8 +21,10 @@ export default new Vuex.Store({
       stats: [],
       bg_color: "",
     },
+    currentPokemonForms: [],
     homeFirstRender: true,
     currentScroll: 0,
+    currentOption: "about",
   },
   mutations: {
     addPokemon(state, payload) {
@@ -41,8 +43,14 @@ export default new Vuex.Store({
     setHomeFirstRender(state, payload) {
       state.homeFirstRender = payload;
     },
+    setCurrentPokemonForms(state, payload) {
+      state.currentPokemonForms = payload;
+    },
     setCurrentScroll(state, payload) {
       state.currentScroll = payload;
+    },
+    setCurrentOption(state, payload) {
+      state.currentOption = payload;
     },
   },
   actions: {
@@ -71,14 +79,36 @@ export default new Vuex.Store({
     changeScrollPaginationValueAction({ commit }, payload) {
       commit("changeScrollPaginationValue", payload);
     },
-    setCurrentPokemon({ commit }, payload) {
-      commit("setCurrentPokemon", payload);
+    async setCurrentPokemon({ commit }, payload) {
+      await axios
+        .get("https://pokeapi.co/api/v2/pokemon/" + payload)
+        .then((result) => {
+          commit("setCurrentPokemon", {
+            name: result.data.name,
+            id: result.data.id,
+            img: result.data.sprites.other.home,
+            types: result.data.types,
+            height: result.data.height,
+            weight: result.data.weight,
+            stats: result.data.stats,
+            bg_color: result.data.types[0].type.name,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     setHomeFirstRender({ commit }, payload) {
       commit("setHomeFirstRender", payload);
     },
+    setCurrentPokemonForms({ commit }, payload) {
+      commit("setCurrentPokemonForms", payload);
+    },
     setCurrentScroll({ commit }, payload) {
       commit("setCurrentScroll", payload);
+    },
+    setCurrentOption({ commit }, payload) {
+      commit("setCurrentOption", payload);
     },
   },
   getters: {
@@ -86,6 +116,8 @@ export default new Vuex.Store({
     getScrollPaginationValue: (state) => state.scrollPagination,
     getCurrentPokemon: (state) => state.currentPokemon,
     getHomeFirstRenderValue: (state) => state.homeFirstRender,
+    getCurrentPokemonForms: (state) => state.currentPokemonForms,
     getCurrentScroll: (state) => state.currentScroll,
+    getCurrentOption: (state) => state.currentOption,
   },
 });

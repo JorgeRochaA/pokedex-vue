@@ -82,6 +82,7 @@ export default {
   }
   @media only screen and (min-width: 1200px) {
     .card_container {
+      width: 100%;
       grid-template-columns: auto auto auto auto;
       justify-content: space-evenly;
     }

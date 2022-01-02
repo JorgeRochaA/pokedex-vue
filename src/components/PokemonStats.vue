@@ -16,115 +16,51 @@
       </div>
     </div>
     <div class="stats_container">
-      <div class="spacer">
-        <img
-          v-if="this.getCurrentPokemon.id > 1"
-          class="left"
-          src="../assets/arrow-right.svg"
-          alt="arrow"
-          v-on:click="previous()"
-        />
-        <img
-          v-if="this.getCurrentPokemon.id < 898"
-          class="right"
-          src="../assets/arrow-right.svg"
-          alt="arrow"
-          v-on:click="next()"
-        />
-      </div>
-      <div class="type_container">
-        <div v-for="type in this.getCurrentPokemon.types" :key="type.slot">
-          <div class="type" :class="type.type.name">
-            {{ type.type.name }}
-          </div>
-        </div>
-      </div>
-      <div class="about_container">
-        <h3>About</h3>
-        <div class="height_weight_container">
-          <div class="height_container">
-            <img src="../assets/height_logo.png" alt="" />
-            <div>
-              <h5>{{ this.dataHeight }} M</h5>
-              <h4>Height</h4>
-            </div>
-          </div>
-          <div class="weight_container">
-            <img src="../assets/weight_logo.png" alt="" />
-            <div>
-              <h5>{{ this.dataWeight }} Kg</h5>
-              <h4>Weight</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="base_stats_container">
-        <div
-          class="progress_container"
-          v-for="(poke_stat, index) in this.getCurrentPokemon.stats"
-          :key="index"
-        >
-          <svg class="progress" width="50" height="50">
-            <circle
-              class="progress-circle"
-              :class="poke_stat.stat.name"
-              cx="50"
-              cy="50"
-              r="30"
-              fill="transparent"
-              stroke-width="5px"
-            />
-          </svg>
-          <h5>{{ poke_stat.stat.name }}</h5>
-          <h4>{{ poke_stat.base_stat }}%</h4>
-        </div>
-      </div>
+      <NextPrevious />
+      <Types />
+      <Options />
+      <AboutPokemon />
+      <BaseStats v-if="this.getCurrentOption == 'about'" />
+      <PokemonForms v-if="this.getCurrentOption == 'forms'" />
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
+import NextPrevious from "../components/NextPrevious.vue";
+import Types from "../components/Types.vue";
+import Options from "../components/Options.vue";
+import AboutPokemon from "../components/AboutPokemon.vue";
+import BaseStats from "../components/BaseStats.vue";
+import PokemonForms from "../components/PokemonForms.vue";
 export default {
   name: "pokemonStats",
+  components: {
+    NextPrevious,
+    Types,
+    Options,
+    AboutPokemon,
+    BaseStats,
+    PokemonForms,
+  },
   data() {
     return {
-      poke: [],
-      statsData: [],
       shiny: false,
     };
   },
-  mounted() {
-    this.fillStrokeStats();
-  },
   computed: {
-    ...mapGetters(["getCurrentPokemon"]),
-    dataHeight() {
-      let num = this.getCurrentPokemon.height * 0.1;
-      return num.toFixed(1);
-    },
-    dataWeight() {
-      let num = this.getCurrentPokemon.weight * 0.1;
-      return num.toFixed(1);
+    ...mapGetters(["getCurrentPokemon", "getCurrentOption"]),
+  },
+  watch: {
+    getCurrentPokemon: function () {
+      this.addAnimation();
     },
   },
   methods: {
-    ...mapActions(["setCurrentPokemon"]),
-    fillStrokeStats() {
-      setTimeout(() => {
-        const circle = document.querySelector(".progress-circle");
-        let circunference = circle.getTotalLength();
-        this.getCurrentPokemon.stats.forEach((element) => {
-          let stat_circle = document.querySelector("." + element.stat.name);
-          let result =
-            circunference - (element.base_stat / 100) * circunference;
-          if (result >= 0) {
-            stat_circle.style.strokeDashoffset = result;
-          } else {
-            stat_circle.style.strokeDashoffset = 0;
-          }
-        });
-      }, 200);
+    showShiny() {
+      this.shiny = !this.shiny;
+    },
+    addAnimation() {
       let img = document.querySelector(".animated_img");
       img.style.display = "none";
       img.classList.remove("animated");
@@ -132,42 +68,6 @@ export default {
         img.style.display = "initial";
         img.classList.add("animated");
       }, 100);
-    },
-    showShiny() {
-      this.shiny = !this.shiny;
-    },
-    next() {
-      this.$router.push({
-        path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
-      });
-      this.reloadPokemon(this.getCurrentPokemon.id + 1);
-    },
-    previous() {
-      this.$router.push({
-        path: `/Pokemon/${this.getCurrentPokemon.id - 1}`,
-      });
-      this.reloadPokemon(this.getCurrentPokemon.id - 1);
-    },
-    async reloadPokemon(id) {
-      await axios
-        .get(`https://pokeapi.co/api/v2/pokemon/${id}`)
-        .then((result) => {
-          this.setCurrentPokemon({
-            name: result.data.name,
-            id: result.data.id,
-            img: result.data.sprites.other.home,
-            types: result.data.types,
-            height: result.data.height,
-            weight: result.data.weight,
-            stats: result.data.stats,
-            bg_color: result.data.types[0].type.name,
-          });
-          this.fillStrokeStats();
-          this.$route.params.id = id;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
 };
@@ -177,147 +77,9 @@ export default {
   margin-bottom: 50px;
 }
 @mixin define_height($p_height) {
-  height: $p_height !important;
+  min-height: $p_height !important;
 }
-@mixin spacer-type_container-type-styles {
-  .spacer {
-    height: 80px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    .left {
-      margin-left: 20px;
-      height: 35px;
-      transform: rotate(-180deg);
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
-    .right {
-      margin-left: auto;
-      margin-right: 20px;
-      height: 35px;
-      position: relative;
-      z-index: 2;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-  .type_container {
-    height: 50px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    color: white;
-    width: 100%;
-
-    .type {
-      min-width: 100px;
-      padding: 10px;
-      border-radius: 5px;
-    }
-  }
-}
-@mixin about_style {
-  .about_container {
-    height: 110px;
-    width: 100%;
-
-    h3 {
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .height_weight_container {
-      height: 70px;
-      display: flex;
-      .height_container {
-        height: 100%;
-        width: 50%;
-        border-right: 2px solid #e0e0e0;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        img {
-          height: 50%;
-        }
-      }
-      .weight_container {
-        height: 100%;
-        width: 50%;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-
-        img {
-          height: 50%;
-        }
-      }
-    }
-  }
-}
-@mixin base_stats_container-styles($p_height_base_stats_container) {
-  .base_stats_container {
-    height: $p_height_base_stats_container;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-
-    .progress_container {
-      height: 100px;
-      width: 100px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-
-      .progress {
-        transform: rotate(270deg);
-        height: 100%;
-        width: 100%;
-      }
-      .progress-circle {
-        transition: 1s;
-        stroke-dasharray: 188;
-        stroke-dashoffset: 188;
-        &.hp {
-          stroke: #53cd5b;
-        }
-        &.attack {
-          stroke: #f6de52;
-        }
-        &.defense {
-          stroke: #ed7f0f;
-        }
-        &.special-attack {
-          stroke: #56b0f1;
-        }
-        &.special-defense {
-          stroke: #ad62f6;
-        }
-        &.speed {
-          stroke: #f06ace;
-        }
-      }
-      h5 {
-        position: absolute;
-        bottom: -5px;
-      }
-      h4 {
-        position: absolute;
-      }
-    }
-  }
-}
 .pokemonStats {
   width: 90%;
   display: flex;
@@ -358,99 +120,17 @@ export default {
   }
 
   .stats_container {
-    height: 500px;
+    height: 515px;
     width: 100%;
     border-radius: 10px;
     background-color: white;
-    @include spacer-type_container-type-styles;
-    @include about_style;
-    .type_container {
-      :first-letter {
-        text-transform: uppercase;
-      }
-
-      .type {
-        &.normal {
-          background-color: #a8a77a;
-        }
-
-        &.fire {
-          background-color: #ee8130;
-        }
-
-        &.water {
-          background-color: #6390f0;
-        }
-
-        &.electric {
-          background-color: #f7d02c;
-        }
-
-        &.grass {
-          background-color: #7ac74c;
-        }
-
-        &.ice {
-          background-color: #96d9d6;
-        }
-
-        &.fighting {
-          background-color: #c22e28;
-        }
-
-        &.poison {
-          background-color: #a33ea1;
-        }
-
-        &.ground {
-          background-color: #e2bf65;
-        }
-
-        &.flying {
-          background-color: #a98ff3;
-        }
-
-        &.psychic {
-          background-color: #f95587;
-        }
-
-        &.bug {
-          background-color: #a6b91a;
-        }
-
-        &.rock {
-          background-color: #b6a136;
-        }
-
-        &.ghost {
-          background-color: #735797;
-        }
-
-        &.dragon {
-          background-color: #6f35fc;
-        }
-
-        &.dark {
-          background-color: #705746;
-        }
-
-        &.steel {
-          background-color: #b7b7ce;
-        }
-
-        &.fairy {
-          background-color: #d685ad;
-        }
-      }
-    }
+    position: relative;
+    z-index: 2;
   }
 }
 @media screen and (min-width: 700px) {
   .img_container {
     justify-content: center;
-  }
-  .stats_container {
-    @include base_stats_container-styles(250px);
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
@@ -460,9 +140,6 @@ export default {
   .stats_container {
     @include mb_50px;
     @include define_height(400px);
-    @include spacer-type_container-type-styles;
-    @include about_style;
-    @include base_stats_container-styles(160px);
   }
 }
 
@@ -473,13 +150,6 @@ export default {
   .stats_container {
     @include mb_50px;
     @include define_height(500px);
-    @include spacer-type_container-type-styles;
-    @include about_style;
-    @include base_stats_container-styles(250px);
-    .base_stats_container {
-      display: grid;
-      grid-template-columns: auto auto auto;
-    }
   }
 }
 
@@ -493,14 +163,6 @@ export default {
     align-items: center;
     @include mb_50px;
     @include define_height(500px);
-    @include spacer-type_container-type-styles;
-    @include about_style;
-    @include base_stats_container-styles(250px);
-
-    .base_stats_container {
-      display: grid;
-      grid-template-columns: auto auto auto;
-    }
   }
 }
 // Animation

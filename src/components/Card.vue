@@ -78,6 +78,8 @@ export default {
         pointer-events: none;
         height: 90%;
         margin-right: 10px;
+        position: relative;
+        z-index: 3;
       }
 
       .pokeball_info {

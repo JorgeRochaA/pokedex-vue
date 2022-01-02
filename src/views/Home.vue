@@ -22,12 +22,14 @@ export default {
     if (!this.getHomeFirstRenderValue) {
       window.scrollTo(0, this.getCurrentScroll);
     }
+    this.setCurrentOption("about");
+    this.setCurrentPokemonForms();
   },
   computed: {
     ...mapGetters(["getHomeFirstRenderValue","getCurrentScroll","getScrollPaginationValue"]),
   },
   methods:{
-    ...mapActions(["changeScrollPaginationValueAction","loadPokemonsAction"]),
+    ...mapActions(["changeScrollPaginationValueAction","loadPokemonsAction","setCurrentOption","setCurrentPokemonForms"]),
   }
 };
 </script>

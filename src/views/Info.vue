@@ -8,7 +8,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import InfoNavbar from "../components/InfoNavbar.vue";
 import PokemonStats from "../components/PokemonStats.vue";
 import { mapActions, mapGetters } from "vuex";
@@ -19,32 +18,13 @@ export default {
     PokemonStats,
   },
   async mounted() {
-    await this.addCurrentPokemon(this.$route.params.id);
+    await this.setCurrentPokemon(this.$route.params.id);
   },
   computed: {
     ...mapGetters(["getCurrentPokemon"]),
   },
   methods: {
     ...mapActions(["setCurrentPokemon"]),
-    async addCurrentPokemon(id) {
-      await axios
-        .get("https://pokeapi.co/api/v2/pokemon/" + id)
-        .then((result) => {
-          this.setCurrentPokemon({
-            name: result.data.name,
-            id: result.data.id,
-            img: result.data.sprites.other.home,
-            types: result.data.types,
-            height: result.data.height,
-            weight: result.data.weight,
-            stats: result.data.stats,
-            bg_color: result.data.types[0].type.name,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
 };
 </script>
@@ -66,7 +46,6 @@ export default {
     pointer-events: none;
     display: flex;
     justify-content: flex-end;
-
     img {
       height: 300px;
       transform: rotate(320deg);
