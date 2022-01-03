@@ -85,6 +85,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  @include mb_50px;
 
   .pokemon_img {
     margin-top: 30px;
