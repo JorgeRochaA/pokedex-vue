@@ -7,6 +7,7 @@
     >
       About
     </h3>
+    <!--
     <h3
       class="forms"
       :class="this.getCurrentPokemon.bg_color"
@@ -28,6 +29,7 @@
     >
       Giga-Max
     </h3>
+-->
   </div>
 </template>
 <script>
