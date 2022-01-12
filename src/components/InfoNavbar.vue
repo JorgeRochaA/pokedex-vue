@@ -12,16 +12,16 @@
   </div>
 </template>
 <script>
-import { mapGetters,mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "infoNavbar",
   computed: {
     ...mapGetters(["getCurrentPokemon"]),
   },
   methods: {
-    ...mapActions(["clearPokemonsAction","setCurrentPokemon"]),
+    ...mapActions(["clearCurrentPokemon"]),
     goBack() {
-      this.setCurrentPokemon();
+      this.clearCurrentPokemon();
       this.$router.push("/");
     },
   },

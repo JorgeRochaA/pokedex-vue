@@ -24,20 +24,14 @@ export default {
   components: {
     Card,
   },
-  mounted() {
-    if (this.getHomeFirstRenderValue) {
-      this.loadPokemonsAction();
-    }
-  },
   computed: {
     ...mapGetters([
       "getPokemons",
-      "getHomeFirstRenderValue",
       "getScrollPaginationValue",
     ]),
   },
   methods: {
-    ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
+    ...mapActions(["loadPokemonsAction","changeScrollPaginationValueAction"]),
     loadMorePokemons() {
       this.changeScrollPaginationValueAction({
         currentID: this.getScrollPaginationValue.limit + 1,
@@ -104,9 +98,9 @@ export default {
   @media screen and (min-width: 910px) and (max-width: 1199px) {
     .card_container {
       grid-template-columns: auto auto auto auto;
-      .btn_container{
+      .btn_container {
         height: 130px;
-    width: 195px;
+        width: 195px;
       }
     }
   }

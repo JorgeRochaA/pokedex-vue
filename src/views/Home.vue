@@ -19,18 +19,19 @@ export default {
     CardContainer,
   },
   mounted() {
-    if (!this.getHomeFirstRenderValue) {
+    if (this.getHomeFirstRenderValue) {
+      this.loadPokemonsAction();
+    } else {
       window.scrollTo(0, this.getCurrentScroll);
     }
     this.setCurrentOption("about");
-    this.setCurrentPokemonForms();
   },
   computed: {
-    ...mapGetters(["getHomeFirstRenderValue","getCurrentScroll","getScrollPaginationValue"]),
+    ...mapGetters(["getHomeFirstRenderValue", "getCurrentScroll"]),
   },
-  methods:{
-    ...mapActions(["changeScrollPaginationValueAction","loadPokemonsAction","setCurrentOption","setCurrentPokemonForms"]),
-  }
+  methods: {
+    ...mapActions(["loadPokemonsAction", "setCurrentOption"]),
+  },
 };
 </script>
 <style scoped lang="scss">

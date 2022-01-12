@@ -52,6 +52,18 @@ export default new Vuex.Store({
     setCurrentOption(state, payload) {
       state.currentOption = payload;
     },
+    clearCurrentPokemon(state) {
+      state.currentPokemon = {
+        name: "",
+        id: 0,
+        img: [],
+        types: [],
+        height: 0,
+        weight: 0,
+        stats: [],
+        bg_color: "",
+      };
+    },
   },
   actions: {
     addPokemonAction({ commit }, payload) {
@@ -110,6 +122,9 @@ export default new Vuex.Store({
     setCurrentOption({ commit }, payload) {
       commit("setCurrentOption", payload);
     },
+    clearCurrentPokemon({commit}){
+commit("clearCurrentPokemon");
+    }
   },
   getters: {
     getPokemons: (state) => state.pokemons,
