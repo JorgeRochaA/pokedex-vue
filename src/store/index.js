@@ -1,47 +1,59 @@
+import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    currentOption: "about",
+    currentPokemon: {
+      bg_color: "",
+      height: 0,
+      id: 0,
+      img: [],
+      name: "",
+      stats: [],
+      types: [],
+      weight: 0,
+    },
+    currentPokemonForms: [],
+    currentScroll: 0,
+    homeFirstRender: true,
     pokemons: [],
     scrollPagination: {
       currentID: 1,
       limit: 10, // max 898
     },
-    currentPokemon: {
-      name: "",
-      id: 0,
-      img: [],
-      types: [],
-      height: 0,
-      weight: 0,
-      stats: [],
-      bg_color: "",
-    },
-    currentPokemonForms: [],
-    homeFirstRender: true,
-    currentScroll: 0,
-    currentOption: "about",
   },
   mutations: {
     addPokemon(state, payload) {
       let newArray = [...state.pokemons, payload];
       state.pokemons = newArray;
     },
-    clearPokemons(state) {
-      state.pokemons = [];
-    },
     changeScrollPaginationValue(state, payload) {
       state.scrollPagination = payload;
     },
+    clearCurrentPokemon(state) {
+      state.currentPokemon = {
+        bg_color: "",
+        height: 0,
+        id: 0,
+        img: [],
+        name: "",
+        stats: [],
+        types: [],
+        weight: 0,
+      };
+    },
+    clearPokemons(state) {
+      state.pokemons = [];
+    },
+    setCurrentOption(state, payload) {
+      state.currentOption = payload;
+    },
     setCurrentPokemon(state, payload) {
       state.currentPokemon = payload;
-    },
-    setHomeFirstRender(state, payload) {
-      state.homeFirstRender = payload;
     },
     setCurrentPokemonForms(state, payload) {
       state.currentPokemonForms = payload;
@@ -49,28 +61,13 @@ export default new Vuex.Store({
     setCurrentScroll(state, payload) {
       state.currentScroll = payload;
     },
-    setCurrentOption(state, payload) {
-      state.currentOption = payload;
-    },
-    clearCurrentPokemon(state) {
-      state.currentPokemon = {
-        name: "",
-        id: 0,
-        img: [],
-        types: [],
-        height: 0,
-        weight: 0,
-        stats: [],
-        bg_color: "",
-      };
+    setHomeFirstRender(state, payload) {
+      state.homeFirstRender = payload;
     },
   },
   actions: {
     addPokemonAction({ commit }, payload) {
       commit("addPokemon", payload);
-    },
-    clearPokemonsAction({ commit }) {
-      commit("clearPokemons");
     },
     async loadPokemonsAction({ commit }) {
       for (
@@ -87,9 +84,6 @@ export default new Vuex.Store({
             console.log(err);
           });
       }
-    },
-    changeScrollPaginationValueAction({ commit }, payload) {
-      commit("changeScrollPaginationValue", payload);
     },
     async setCurrentPokemon({ commit }, payload) {
       await axios
@@ -110,8 +104,17 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    setHomeFirstRender({ commit }, payload) {
-      commit("setHomeFirstRender", payload);
+    changeScrollPaginationValueAction({ commit }, payload) {
+      commit("changeScrollPaginationValue", payload);
+    },
+    clearCurrentPokemon({ commit }) {
+      commit("clearCurrentPokemon");
+    },
+    clearPokemonsAction({ commit }) {
+      commit("clearPokemons");
+    },
+    setCurrentOption({ commit }, payload) {
+      commit("setCurrentOption", payload);
     },
     setCurrentPokemonForms({ commit }, payload) {
       commit("setCurrentPokemonForms", payload);
@@ -119,20 +122,17 @@ export default new Vuex.Store({
     setCurrentScroll({ commit }, payload) {
       commit("setCurrentScroll", payload);
     },
-    setCurrentOption({ commit }, payload) {
-      commit("setCurrentOption", payload);
+    setHomeFirstRender({ commit }, payload) {
+      commit("setHomeFirstRender", payload);
     },
-    clearCurrentPokemon({commit}){
-commit("clearCurrentPokemon");
-    }
   },
   getters: {
-    getPokemons: (state) => state.pokemons,
-    getScrollPaginationValue: (state) => state.scrollPagination,
+    getCurrentOption: (state) => state.currentOption,
     getCurrentPokemon: (state) => state.currentPokemon,
-    getHomeFirstRenderValue: (state) => state.homeFirstRender,
     getCurrentPokemonForms: (state) => state.currentPokemonForms,
     getCurrentScroll: (state) => state.currentScroll,
-    getCurrentOption: (state) => state.currentOption,
+    getHomeFirstRenderValue: (state) => state.homeFirstRender,
+    getPokemons: (state) => state.pokemons,
+    getScrollPaginationValue: (state) => state.scrollPagination,
   },
 });

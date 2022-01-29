@@ -27,21 +27,21 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import NextPrevious from "../components/NextPrevious.vue";
-import Types from "../components/Types.vue";
-import Options from "../components/Options.vue";
 import AboutPokemon from "../components/AboutPokemon.vue";
 import BaseStats from "../components/BaseStats.vue";
+import NextPrevious from "../components/NextPrevious.vue";
+import Options from "../components/Options.vue";
 import PokemonForms from "../components/PokemonForms.vue";
+import Types from "../components/Types.vue";
 export default {
   name: "pokemonStats",
   components: {
-    NextPrevious,
-    Types,
-    Options,
     AboutPokemon,
     BaseStats,
+    NextPrevious,
+    Options,
     PokemonForms,
+    Types,
   },
   data() {
     return {
@@ -57,9 +57,6 @@ export default {
     },
   },
   methods: {
-    showShiny() {
-      this.shiny = !this.shiny;
-    },
     addAnimation() {
       let img = document.querySelector(".animated_img");
       img.style.display = "none";
@@ -68,6 +65,9 @@ export default {
         img.style.display = "initial";
         img.classList.add("animated");
       }, 100);
+    },
+    showShiny() {
+      this.shiny = !this.shiny;
     },
   },
 };

@@ -24,18 +24,22 @@ export default {
     ...mapGetters(["getCurrentPokemon"]),
   },
   methods: {
-    ...mapActions(["setCurrentPokemon","setCurrentOption","setCurrentPokemonForms"]),
-    next() {
-      this.$router.push({
-        path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
-      });
-      this.reloadPokemon(this.getCurrentPokemon.id + 1);
-    },
+    ...mapActions([
+      "setCurrentOption",
+      "setCurrentPokemon",
+      "setCurrentPokemonForms",
+    ]),
     async previous() {
       this.$router.push({
         path: `/Pokemon/${this.getCurrentPokemon.id - 1}`,
       });
       await this.reloadPokemon(this.getCurrentPokemon.id - 1);
+    },
+    next() {
+      this.$router.push({
+        path: `/Pokemon/${this.getCurrentPokemon.id + 1}`,
+      });
+      this.reloadPokemon(this.getCurrentPokemon.id + 1);
     },
     reloadPokemon(id) {
       this.setCurrentPokemonForms();

@@ -26,6 +26,21 @@ export default {
   },
   methods: {
     ...mapActions(["setCurrentPokemonForms"]),
+    async getDataEachForm() {
+      let array = [];
+      for (let i = 0; i < this.pokemonForms.length; i++) {
+        const element = this.pokemonForms[i];
+        await axios
+          .get(element.pokemon.url)
+          .then((result) => {
+            array.push(result.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      this.setCurrentPokemonForms(array);
+    },
     async setPokemonForms() {
       if (this.getCurrentPokemon.id != 25) {
         await axios
@@ -53,21 +68,6 @@ export default {
             console.log(err);
           });
       }
-    },
-    async getDataEachForm() {
-      let array = [];
-      for (let i = 0; i < this.pokemonForms.length; i++) {
-        const element = this.pokemonForms[i];
-        await axios
-          .get(element.pokemon.url)
-          .then((result) => {
-            array.push(result.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-      this.setCurrentPokemonForms(array);
     },
   },
 };

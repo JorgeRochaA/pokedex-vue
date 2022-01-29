@@ -4,13 +4,13 @@
     <div class="pokeball_container">
       <img src="../assets/Pokeball_Info.svg" alt="poke" />
     </div>
-    <PokemonStats/>
+    <PokemonStats />
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
 import InfoNavbar from "../components/InfoNavbar.vue";
 import PokemonStats from "../components/PokemonStats.vue";
-import { mapActions, mapGetters } from "vuex";
 export default {
   name: "info",
   components: {
@@ -36,7 +36,7 @@ export default {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  transition: .5s;
+  transition: 0.5s;
 
   .pokeball_container {
     position: absolute;

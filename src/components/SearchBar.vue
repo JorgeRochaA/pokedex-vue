@@ -28,9 +28,9 @@ export default {
   methods: {
     ...mapActions([
       "addPokemonAction",
+      "changeScrollPaginationValueAction",
       "clearPokemonsAction",
       "loadPokemonsAction",
-      "changeScrollPaginationValueAction",
     ]),
     filter() {
       if (!this.pokemonName == "") {

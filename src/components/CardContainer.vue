@@ -25,13 +25,10 @@ export default {
     Card,
   },
   computed: {
-    ...mapGetters([
-      "getPokemons",
-      "getScrollPaginationValue",
-    ]),
+    ...mapGetters(["getPokemons", "getScrollPaginationValue"]),
   },
   methods: {
-    ...mapActions(["loadPokemonsAction","changeScrollPaginationValueAction"]),
+    ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
     loadMorePokemons() {
       this.changeScrollPaginationValueAction({
         currentID: this.getScrollPaginationValue.limit + 1,

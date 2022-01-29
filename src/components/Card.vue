@@ -21,14 +21,14 @@ import { mapActions } from "vuex";
 export default {
   name: "Card",
   props: {
+    colorName: null,
     id: null,
     img: null,
     name: null,
-    colorName: null,
     types: null,
   },
   methods: {
-    ...mapActions(["setHomeFirstRender","setCurrentScroll"]),
+    ...mapActions(["setHomeFirstRender", "setCurrentScroll"]),
     moreInfo() {
       this.setHomeFirstRender(false);
       this.setCurrentScroll(window.scrollY);
@@ -44,9 +44,9 @@ export default {
   margin: 15px 0;
   border-radius: 10px;
   overflow: hidden;
-   &:hover{
-     cursor: pointer;
-   }
+  &:hover {
+    cursor: pointer;
+  }
   .name_id_container {
     height: 75px;
     pointer-events: none;

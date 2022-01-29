@@ -9,14 +9,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
-import SearchBar from "../components/SearchBar.vue";
 import CardContainer from "../components/CardContainer.vue";
+import SearchBar from "../components/SearchBar.vue";
 export default {
   name: "Home",
   components: {
-    SearchBar,
     CardContainer,
+    SearchBar,
   },
   mounted() {
     if (this.getHomeFirstRenderValue) {
