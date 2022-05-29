@@ -2,7 +2,7 @@
   <div class="searchBar">
     <input type="text" placeholder="🔎  Search By Name" v-model="pokemonName" />
     <div class="button_container">
-      <button class="btn" v-on:click="filter()">Search</button>
+      <button class="btn">Search</button>
       <img
         class="pikachu"
         src="https://img1.picmix.com/output/stamp/normal/0/9/0/4/1604090_a14a5.gif"
