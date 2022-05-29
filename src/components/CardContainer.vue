@@ -10,32 +10,20 @@
         :colorName="pokemon.types[0].type.name"
         :types="pokemon.types"
       />
-      <div class="btn_container" v-if="this.getPokemons.length > 1">
-        <button v-on:click="loadMorePokemons()">Load More</button>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import Card from "../components/Card.vue";
+
 export default {
   name: "CardContainer",
   components: {
     Card,
   },
   computed: {
-    ...mapGetters(["getPokemons", "getScrollPaginationValue"]),
-  },
-  methods: {
-    ...mapActions(["loadPokemonsAction", "changeScrollPaginationValueAction"]),
-    loadMorePokemons() {
-      this.changeScrollPaginationValueAction({
-        currentID: this.getScrollPaginationValue.limit + 1,
-        limit: this.getScrollPaginationValue.limit + 10, // max 898
-      });
-      this.loadPokemonsAction();
-    },
+    ...mapGetters(["getPokemons"]),
   },
 };
 </script>

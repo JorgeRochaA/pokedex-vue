@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container">
-      <SearchBar />
+      <!-- <SearchBar /> -->
     </div>
     <CardContainer />
   </div>
@@ -10,26 +10,58 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import CardContainer from "../components/CardContainer.vue";
-import SearchBar from "../components/SearchBar.vue";
+// import SearchBar from "../components/SearchBar.vue";
 export default {
   name: "Home",
   components: {
     CardContainer,
-    SearchBar,
+    // SearchBar,
   },
   mounted() {
     if (this.getHomeFirstRenderValue) {
-      this.loadPokemonsAction();
+      this.loadPokemonsUrl("https://pokeapi.co/api/v2/pokemon/");
     } else {
       window.scrollTo(0, this.getCurrentScroll);
     }
     this.setCurrentOption("about");
+    window.addEventListener("scroll", this.addEvent);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.addEvent);
   },
   computed: {
-    ...mapGetters(["getHomeFirstRenderValue", "getCurrentScroll"]),
+    ...mapGetters([
+      "getHomeFirstRenderValue",
+      "getRemoveScrollEventValue",
+      "getNextUrl",
+      "getCurrentScroll",
+    ]),
+  },
+  watch: {
+    getRemoveScrollEventValue() {
+      if (!this.getRemoveScrollEventValue) {
+        window.addEventListener("scroll", this.addEvent);
+      } else {
+        window.removeEventListener("scroll", this.addEvent);
+      }
+    },
   },
   methods: {
-    ...mapActions(["loadPokemonsAction", "setCurrentOption"]),
+    ...mapActions([
+      "setCurrentOption",
+      "setRemoveScrollEvent",
+      "loadPokemonsUrl",
+    ]),
+    addEvent() {
+      const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight - 100;
+      const scrolled = window.scrollY;
+
+      if (Math.ceil(scrolled) >= scrollable) {
+        this.loadPokemonsUrl(this.getNextUrl);
+        this.setRemoveScrollEvent(true);
+      }
+    },
   },
 };
 </script>

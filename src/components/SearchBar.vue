@@ -28,7 +28,6 @@ export default {
   methods: {
     ...mapActions([
       "addPokemonAction",
-      "changeScrollPaginationValueAction",
       "clearPokemonsAction",
       "loadPokemonsAction",
     ]),
@@ -57,11 +56,6 @@ export default {
           document.getElementById("pikachu").classList.remove("search");
         }, 2000);
         this.clearPokemonsAction();
-        this.changeScrollPaginationValueAction({
-          currentID: 1,
-          limit: 10, // max 898
-        });
-        this.loadPokemonsAction();
       }
     },
   },

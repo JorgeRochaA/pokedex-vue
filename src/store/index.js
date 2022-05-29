@@ -21,18 +21,12 @@ export default new Vuex.Store({
     currentScroll: 0,
     homeFirstRender: true,
     pokemons: [],
-    scrollPagination: {
-      currentID: 1,
-      limit: 10, // max 898
-    },
+    nextUrl: "",
+    removeScrollEvent: false,
   },
   mutations: {
     addPokemon(state, payload) {
-      let newArray = [...state.pokemons, payload];
-      state.pokemons = newArray;
-    },
-    changeScrollPaginationValue(state, payload) {
-      state.scrollPagination = payload;
+      state.pokemons = [...state.pokemons, payload];
     },
     clearCurrentPokemon(state) {
       state.currentPokemon = {
@@ -64,26 +58,40 @@ export default new Vuex.Store({
     setHomeFirstRender(state, payload) {
       state.homeFirstRender = payload;
     },
+    setNextUrl(state, payload) {
+      state.nextUrl = payload;
+    },
+    setRemoveScrollEvent(state, payload) {
+      state.removeScrollEvent = payload;
+    },
   },
   actions: {
     addPokemonAction({ commit }, payload) {
       commit("addPokemon", payload);
     },
-    async loadPokemonsAction({ commit }) {
-      for (
-        let i = this.state.scrollPagination.currentID;
-        i <= this.state.scrollPagination.limit;
-        i++
-      ) {
+    async loadPokemonsUrl({ commit, dispatch }, url) {
+      await axios
+        .get(url)
+        .then((res) => {
+          commit("setNextUrl", res.data.next);
+          dispatch("loadPokemonsAction", res.data.results);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async loadPokemonsAction({ commit }, payload) {
+      for (let pokemon of payload) {
         await axios
-          .get("https://pokeapi.co/api/v2/pokemon/" + i)
-          .then((result) => {
-            commit("addPokemon", result.data);
+          .get(pokemon.url)
+          .then((res) => {
+            commit("addPokemon", res.data);
           })
           .catch((err) => {
             console.log(err);
           });
       }
+      commit("setRemoveScrollEvent", false);
     },
     async setCurrentPokemon({ commit }, payload) {
       await axios
@@ -104,9 +112,6 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    changeScrollPaginationValueAction({ commit }, payload) {
-      commit("changeScrollPaginationValue", payload);
-    },
     clearCurrentPokemon({ commit }) {
       commit("clearCurrentPokemon");
     },
@@ -125,6 +130,9 @@ export default new Vuex.Store({
     setHomeFirstRender({ commit }, payload) {
       commit("setHomeFirstRender", payload);
     },
+    setRemoveScrollEvent({ commit }, payload) {
+      commit("setRemoveScrollEvent", payload);
+    },
   },
   getters: {
     getCurrentOption: (state) => state.currentOption,
@@ -133,6 +141,7 @@ export default new Vuex.Store({
     getCurrentScroll: (state) => state.currentScroll,
     getHomeFirstRenderValue: (state) => state.homeFirstRender,
     getPokemons: (state) => state.pokemons,
-    getScrollPaginationValue: (state) => state.scrollPagination,
+    getNextUrl: (state) => state.nextUrl,
+    getRemoveScrollEventValue: (state) => state.removeScrollEvent,
   },
 });
