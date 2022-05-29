@@ -5,7 +5,7 @@
         <img
           v-if="!this.shiny"
           class="animated_img"
-          :src="this.getCurrentPokemon.img.front_default"
+          :src="this.getCurrentPokemon.img"
           :alt="this.getCurrentPokemon.name"
         />
         <img

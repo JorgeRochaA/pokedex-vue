@@ -70,6 +70,9 @@ export default new Vuex.Store({
       commit("addPokemon", payload);
     },
     async loadPokemonsUrl({ commit, dispatch }, url) {
+      if (url == "https://pokeapi.co/api/v2/pokemon/?offset=900&limit=20") {
+        return;
+      }
       await axios
         .get(url)
         .then((res) => {
@@ -85,6 +88,17 @@ export default new Vuex.Store({
         await axios
           .get(pokemon.url)
           .then((res) => {
+            if (res.data.id == 10001 || res.data.id == 10002) {
+              return;
+            }
+            if (res.data.id == 718) {
+              res.data.sprites.other = {
+                home: {
+                  front_default:
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/10119.png",
+                },
+              };
+            }
             commit("addPokemon", res.data);
           })
           .catch((err) => {
@@ -100,7 +114,10 @@ export default new Vuex.Store({
           commit("setCurrentPokemon", {
             name: result.data.name,
             id: result.data.id,
-            img: result.data.sprites.other.home,
+            img:
+              payload == 718
+                ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/10119.png"
+                : result.data.sprites.other.home.front_default,
             types: result.data.types,
             height: result.data.height,
             weight: result.data.weight,
