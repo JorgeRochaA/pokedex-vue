@@ -19,6 +19,7 @@ export default {
   },
   async mounted() {
     await this.setCurrentPokemon(this.$route.params.id);
+    window.scrollTo(0, 0);
   },
   computed: {
     ...mapGetters(["getCurrentPokemon"]),

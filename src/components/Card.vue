@@ -44,8 +44,11 @@ export default {
   margin: 15px 0;
   border-radius: 10px;
   overflow: hidden;
+  transition: 0.5s;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.5s;
   }
   .name_id_container {
     height: 75px;
