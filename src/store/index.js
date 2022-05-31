@@ -23,6 +23,7 @@ export default new Vuex.Store({
     pokemons: [],
     nextUrl: "",
     removeScrollEvent: false,
+    pokemonFilterName: "",
   },
   mutations: {
     addPokemon(state, payload) {
@@ -63,6 +64,9 @@ export default new Vuex.Store({
     },
     setRemoveScrollEvent(state, payload) {
       state.removeScrollEvent = payload;
+    },
+    setPokemonName(state, payload) {
+      state.pokemonFilterName = payload;
     },
   },
   actions: {
@@ -150,6 +154,9 @@ export default new Vuex.Store({
     setRemoveScrollEvent({ commit }, payload) {
       commit("setRemoveScrollEvent", payload);
     },
+    setPokemonName({ commit }, payload) {
+      commit("setPokemonName", payload);
+    },
   },
   getters: {
     getCurrentOption: (state) => state.currentOption,
@@ -160,5 +167,6 @@ export default new Vuex.Store({
     getPokemons: (state) => state.pokemons,
     getNextUrl: (state) => state.nextUrl,
     getRemoveScrollEventValue: (state) => state.removeScrollEvent,
+    getPokemonFilterName: (state) => state.pokemonFilterName,
   },
 });

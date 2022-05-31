@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container">
-      <!-- <SearchBar /> -->
+      <SearchBar />
     </div>
     <CardContainer />
   </div>
@@ -10,12 +10,12 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import CardContainer from "../components/CardContainer.vue";
-// import SearchBar from "../components/SearchBar.vue";
+import SearchBar from "../components/SearchBar.vue";
 export default {
   name: "Home",
   components: {
     CardContainer,
-    // SearchBar,
+    SearchBar,
   },
   mounted() {
     if (this.getHomeFirstRenderValue) {

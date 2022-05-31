@@ -2,7 +2,7 @@
   <div class="searchBar">
     <input type="text" placeholder="🔎  Search By Name" v-model="pokemonName" />
     <div class="button_container">
-      <button class="btn">Search</button>
+      <button class="btn" v-on:click="filter()">Search</button>
       <img
         class="pikachu"
         src="https://img1.picmix.com/output/stamp/normal/0/9/0/4/1604090_a14a5.gif"
@@ -22,17 +22,32 @@ export default {
       pokemonName: "",
     };
   },
+  mounted() {
+    this.pokemonName = this.getPokemonFilterName;
+  },
   computed: {
-    ...mapGetters(["getPokemons"]),
+    ...mapGetters(["getPokemons", "getPokemonFilterName"]),
+  },
+  watch: {
+    getPokemonFilterName: function () {
+      if (this.getPokemonFilterName == "" && this.getPokemons.length == 1) {
+        this.clearPokemonsAction();
+        this.loadPokemonsUrl("https://pokeapi.co/api/v2/pokemon/");
+      }
+    },
+    pokemonName: function () {
+      this.setPokemonName(this.pokemonName);
+    },
   },
   methods: {
     ...mapActions([
       "addPokemonAction",
       "clearPokemonsAction",
-      "loadPokemonsAction",
+      "loadPokemonsUrl",
+      "setPokemonName",
     ]),
     filter() {
-      if (!this.pokemonName == "") {
+      if (!this.getPokemonFilterName == "") {
         document.getElementById("pikachu").classList.add("search");
         setTimeout(() => {
           document.getElementById("pikachu").classList.remove("search");
@@ -40,22 +55,19 @@ export default {
         axios
           .get(
             "https://pokeapi.co/api/v2/pokemon/" +
-              this.pokemonName.toLowerCase()
+              this.getPokemonFilterName.toLowerCase()
           )
           .then((result) => {
             this.clearPokemonsAction();
             this.addPokemonAction(result.data);
-            this.pokemonName = "";
           })
           .catch((err) => {
             console.log(err);
+            alert("pokemon no encontrado");
+            this.pokemonName = "";
           });
-      } else if (this.getPokemons.length == 1) {
-        document.getElementById("pikachu").classList.add("search");
-        setTimeout(() => {
-          document.getElementById("pikachu").classList.remove("search");
-        }, 2000);
-        this.clearPokemonsAction();
+      } else {
+        alert("los espacio no puede estar vacío");
       }
     },
   },
