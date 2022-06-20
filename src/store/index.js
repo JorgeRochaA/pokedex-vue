@@ -74,7 +74,7 @@ export default new Vuex.Store({
       commit("addPokemon", payload);
     },
     async loadPokemonsUrl({ commit, dispatch }, url) {
-      if (url == "https://pokeapi.co/api/v2/pokemon/?offset=900&limit=20") {
+      if (url == "https://pokeapi.co/api/v2/pokemon/?offset=900&limit=50") {
         return;
       }
       await axios

@@ -19,7 +19,9 @@ export default {
   },
   mounted() {
     if (this.getHomeFirstRenderValue) {
-      this.loadPokemonsUrl("https://pokeapi.co/api/v2/pokemon/");
+      this.loadPokemonsUrl(
+        "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=50"
+      );
     } else {
       window.scrollTo(0, this.getCurrentScroll);
     }
@@ -73,5 +75,6 @@ export default {
   z-index: 5;
   background: white;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.1);
+  font-family: "SF Pro Display";
 }
 </style>
