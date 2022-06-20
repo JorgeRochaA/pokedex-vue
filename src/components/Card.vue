@@ -43,10 +43,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@font-face {
-  font-family: "SF Pro Display";
-  src: url("../fonts/SFProDisplay/SFProDisplay.ttf");
-}
 .card {
   width: 334px;
   height: 115px;
