@@ -32,7 +32,9 @@ export default {
     getPokemonFilterName: function () {
       if (this.getPokemonFilterName == "" && this.getPokemons.length == 1) {
         this.clearPokemonsAction();
-        this.loadPokemonsUrl("https://pokeapi.co/api/v2/pokemon/");
+        this.loadPokemonsUrl(
+          "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=50"
+        );
       }
     },
     pokemonName: function () {
