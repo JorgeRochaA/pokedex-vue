@@ -24,7 +24,7 @@ export default {
   align-items: center;
   color: white;
   width: 100%;
-  gap: 10px;
+  gap: 25px;
   img {
     height: 40px;
   }

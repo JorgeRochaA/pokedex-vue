@@ -16,7 +16,7 @@
           stroke-width="5px"
         />
       </svg>
-      <h5>{{ poke_stat.stat.name }}</h5>
+      <h5 :class="poke_stat.stat.name">{{ poke_stat.stat.name }}</h5>
       <h4>{{ poke_stat.base_stat }}%</h4>
     </div>
   </div>
@@ -65,7 +65,7 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 10px;
-
+  font-family: "SF Pro Display";
   .progress_container {
     height: 100px;
     width: 100px;
@@ -74,7 +74,6 @@ export default {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-
     .progress {
       transform: rotate(270deg);
       height: 100%;
@@ -106,6 +105,24 @@ export default {
     h5 {
       position: absolute;
       bottom: -5px;
+      &.hp {
+        color: #53cd5b;
+      }
+      &.attack {
+        color: #f6de52;
+      }
+      &.defense {
+        color: #ed7f0f;
+      }
+      &.special-attack {
+        color: #56b0f1;
+      }
+      &.special-defense {
+        color: #ad62f6;
+      }
+      &.speed {
+        color: #f06ace;
+      }
     }
     h4 {
       position: absolute;

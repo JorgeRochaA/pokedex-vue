@@ -64,6 +64,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  font-family: "SF Pro Display";
   h3 {
     &.active {
       &.normal {
