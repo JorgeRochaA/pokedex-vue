@@ -56,7 +56,7 @@ export default {
     ]),
     addEvent() {
       const scrollable =
-        document.documentElement.scrollHeight - window.innerHeight - 100;
+        document.documentElement.scrollHeight - window.innerHeight - 500;
       const scrolled = window.scrollY;
 
       if (Math.ceil(scrolled) >= scrollable) {

@@ -56,73 +56,56 @@ export default {
   &.normal {
     background-color: #a8a77a;
   }
-
   &.fire {
-    background-color: #ee8130;
+    background-color: #fd7d24;
   }
-
   &.water {
-    background-color: #6390f0;
+    background-color: #4a90da;
   }
-
   &.electric {
     background-color: #f7d02c;
   }
-
   &.grass {
-    background-color: #7ac74c;
+    background-color: #62b957;
   }
-
   &.ice {
     background-color: #96d9d6;
   }
-
   &.fighting {
     background-color: #c22e28;
   }
-
   &.poison {
     background-color: #a33ea1;
   }
-
   &.ground {
     background-color: #e2bf65;
   }
-
   &.flying {
-    background-color: #a98ff3;
+    background-color: #748fc9;
   }
-
   &.psychic {
     background-color: #f95587;
   }
-
   &.bug {
     background-color: #a6b91a;
   }
-
   &.rock {
     background-color: #b6a136;
   }
-
   &.ghost {
     background-color: #735797;
   }
-
   &.dragon {
-    background-color: #6f35fc;
+    background-color: #0f6ac0;
   }
-
   &.dark {
-    background-color: #705746;
+    background-color: #58575f;
   }
-
   &.steel {
-    background-color: #b7b7ce;
+    background-color: #417d9a;
   }
-
   &.fairy {
-    background-color: #d685ad;
+    background-color: #ed6ec7;
   }
 }
 </style>

@@ -70,73 +70,56 @@ export default {
       &.normal {
         color: #a8a77a;
       }
-
       &.fire {
-        color: #ee8130;
+        color: #fd7d24;
       }
-
       &.water {
-        color: #6390f0;
+        color: #4a90da;
       }
-
       &.electric {
         color: #f7d02c;
       }
-
       &.grass {
-        color: #7ac74c;
+        color: #62b957;
       }
-
       &.ice {
         color: #96d9d6;
       }
-
       &.fighting {
         color: #c22e28;
       }
-
       &.poison {
         color: #a33ea1;
       }
-
       &.ground {
         color: #e2bf65;
       }
-
       &.flying {
-        color: #a98ff3;
+        color: #748fc9;
       }
-
       &.psychic {
         color: #f95587;
       }
-
       &.bug {
         color: #a6b91a;
       }
-
       &.rock {
         color: #b6a136;
       }
-
       &.ghost {
         color: #735797;
       }
-
       &.dragon {
-        color: #6f35fc;
+        color: #0f6ac0;
       }
-
       &.dark {
-        color: #705746;
+        color: #58575f;
       }
-
       &.steel {
-        color: #b7b7ce;
+        color: #417d9a;
       }
-
       &.fairy {
-        color: #d685ad;
+        color: #ed6ec7;
       }
     }
   }
